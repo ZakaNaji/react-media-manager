@@ -13,7 +13,7 @@ export default function UserList() {
   return (
     <div>
       {users.map((user) => (
-        <h1>{user.name}</h1>
+        <h1 key={user.id}>{user.name}</h1>
       ))}
     </div>
   );

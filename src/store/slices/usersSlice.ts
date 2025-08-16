@@ -26,8 +26,14 @@ const userSlice = createSlice({
       .addCase(fetchUsers.fulfilled, (state, action) => {
         state.isLoading = false;
         state.data = action.payload;
+      });
+
+    builder
+      .addCase(addUser.pending, (state, action) => {
+        state.isLoading = true;
       })
       .addCase(addUser.fulfilled, (state, action) => {
+        state.isLoading = false;
         state.data.push(action.payload);
       });
   },

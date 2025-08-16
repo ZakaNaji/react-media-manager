@@ -4,6 +4,7 @@ import { useAppDispatch, useAppSelector } from "../hooks/hooks";
 import type { User } from "../types/user";
 import Skeleton from "./Skeleton";
 import UserComponent from "./User";
+import Button from "./Button";
 
 export default function UserList() {
   const dispatch = useAppDispatch();
@@ -33,7 +34,10 @@ export default function UserList() {
 
   return (
     <div>
-      <button onClick={handleAddUser}>ADD user</button>
+      <div className="flex flex-row justify-between m-3">
+        <h1 className="m-2 text-xl">Users</h1>
+        <Button onClick={handleAddUser}>ADD user</Button>
+      </div>
       {renderedUsers}
     </div>
   );

@@ -1,38 +1,26 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { addUser, fetchUsers } from "../store/thunks/userThunk";
-import { useAppDispatch, useAppSelector } from "../hooks/hooks";
+import { useAppSelector } from "../hooks/hooks";
 import type { User } from "../types/user";
 import Skeleton from "./Skeleton";
 import UserComponent from "./User";
 import Button from "./Button";
+import { useThunk } from "../hooks/useThunk";
 
 export default function UserList() {
-  const dispatch = useAppDispatch();
   const users: User[] = useAppSelector((state) => state.users.data);
 
-  const [isUserLoading, setIsUserLoading] = useState<boolean>(false);
-  const [loadingUsersError, setLoadingUsersError] = useState<string | null>(
-    null
-  );
+  const [doFetchUsers, isUserLoading, loadingUsersError] = useThunk(fetchUsers);
 
-  const [isAddUserLoading, setIsAddUserLoading] = useState<boolean>(false);
-  const [addUserError, setAddUserError] = useState<string | null>(null);
+  const [doAddUser, isAddUserLoading, addUserError] = useThunk(addUser);
 
   const handleAddUser = () => {
-    setIsAddUserLoading(true);
-    dispatch(addUser())
-      .unwrap()
-      .catch((err) => setAddUserError(err.message))
-      .finally(() => setIsAddUserLoading(false));
+    doAddUser();
   };
 
   useEffect(() => {
-    setIsUserLoading(true);
-    dispatch(fetchUsers())
-      .unwrap()
-      .catch((err) => setLoadingUsersError(err.message))
-      .finally(() => setIsUserLoading(false));
-  }, [dispatch]);
+    doFetchUsers();
+  }, [doFetchUsers]);
 
   if (isUserLoading) {
     return <Skeleton times={5} classeName="h-10 w-full" />;

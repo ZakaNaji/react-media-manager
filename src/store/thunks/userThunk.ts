@@ -1,3 +1,4 @@
+import { faker } from "@faker-js/faker";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
@@ -14,7 +15,7 @@ const fetchUsers = createAsyncThunk("users/fetch", async () => {
 });
 
 const addUser = createAsyncThunk("users/add", async () => {
-  const newUser = { name: "Test1" };
+  const newUser = { name: faker.name.firstName() };
   const resp = await axios.post(`${apiRootURL}/users`, newUser);
   const data = await resp.data;
 

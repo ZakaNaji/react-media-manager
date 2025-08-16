@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { fetchUsers } from "../store/thunks/userThunk";
 import { useAppDispatch, useAppSelector } from "../hooks/hooks";
 import type { User } from "../types/user";
+import Skeleton from "./Skeleton";
 
 export default function UserList() {
   const dispatch = useAppDispatch();
@@ -15,7 +16,7 @@ export default function UserList() {
   return (
     <div>
       {isLoading ? (
-        <h1>...</h1>
+        <Skeleton times={5} />
       ) : (
         users.map((user) => <h1 key={user.id}>{user.name}</h1>)
       )}

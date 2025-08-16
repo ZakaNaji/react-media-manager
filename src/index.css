@@ -1,1 +1,19 @@
 @import "tailwindcss";
+
+/* define the sweep movement for the inner bar */
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+/* register a Tailwind utility for the animation */
+@layer utilities {
+  .animate-shimmer {
+    animation: shimmer 1.5s linear infinite;
+    will-change: transform; /* perf hint */
+  }
+}

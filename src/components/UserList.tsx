@@ -13,13 +13,24 @@ export default function UserList() {
   useEffect(() => {
     dispatch(fetchUsers());
   }, [dispatch]);
-  return (
-    <div>
-      {isLoading ? (
-        <Skeleton times={5} classeName="h-10 w-full" />
-      ) : (
-        users.map((user) => <h1 key={user.id}>{user.name}</h1>)
-      )}
-    </div>
-  );
+
+  if (isLoading) {
+    return <Skeleton times={5} classeName="h-10 w-full" />;
+  }
+
+  if (error) {
+    return <div>SOMETHING WENT WRONG</div>;
+  }
+
+  const renderedUsers = users.map((user) => {
+    return (
+      <div key={user.id} className="mb-2 rounded border">
+        <div className="flex p-2 justify-between items-center cursor-pointer">
+          {user.name}
+        </div>
+      </div>
+    );
+  });
+
+  return <div>{renderedUsers}</div>;
 }

@@ -16,7 +16,7 @@ export default function UserList() {
   return (
     <div>
       {isLoading ? (
-        <Skeleton times={5} />
+        <Skeleton times={5} classeName="h-10 w-full" />
       ) : (
         users.map((user) => <h1 key={user.id}>{user.name}</h1>)
       )}

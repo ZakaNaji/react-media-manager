@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { User } from "../../types/user";
-import { fetchUsers } from "../thunks/userThunk";
+import { addUser, fetchUsers } from "../thunks/userThunk";
 
 interface UserSliceState {
   data: User[];
@@ -26,6 +26,9 @@ const userSlice = createSlice({
       .addCase(fetchUsers.fulfilled, (state, action) => {
         state.isLoading = false;
         state.data = action.payload;
+      })
+      .addCase(addUser.fulfilled, (state, action) => {
+        state.data.push(action.payload);
       });
   },
 });

@@ -1,14 +1,19 @@
-import React, { useEffect } from "react";
-import { fetchUsers } from "../store/thunks/userThunk";
+import React, { use, useEffect } from "react";
+import { addUser, fetchUsers } from "../store/thunks/userThunk";
 import { useAppDispatch, useAppSelector } from "../hooks/hooks";
 import type { User } from "../types/user";
 import Skeleton from "./Skeleton";
+import UserComponent from "./User";
 
 export default function UserList() {
   const dispatch = useAppDispatch();
   const users: User[] = useAppSelector((state) => state.users.data);
   const error = useAppSelector((state) => state.users.error);
   const isLoading = useAppSelector((state) => state.users.isLoading);
+
+  const handleAddUser = () => {
+    dispatch(addUser());
+  };
 
   useEffect(() => {
     dispatch(fetchUsers());
@@ -23,14 +28,13 @@ export default function UserList() {
   }
 
   const renderedUsers = users.map((user) => {
-    return (
-      <div key={user.id} className="mb-2 rounded border">
-        <div className="flex p-2 justify-between items-center cursor-pointer">
-          {user.name}
-        </div>
-      </div>
-    );
+    return <UserComponent user={user} key={user.id} />;
   });
 
-  return <div>{renderedUsers}</div>;
+  return (
+    <div>
+      <button onClick={handleAddUser}>ADD user</button>
+      {renderedUsers}
+    </div>
+  );
 }

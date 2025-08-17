@@ -38,7 +38,9 @@ export default function UserList() {
     <div>
       <div className="flex flex-row justify-between m-3">
         <h1 className="m-2 text-xl">Users</h1>
-        <Button onClick={handleAddUser}>ADD user</Button>
+        <Button isLoading={isAddUserLoading} onClick={handleAddUser}>
+          + ADD user
+        </Button>
       </div>
       {renderedUsers}
     </div>

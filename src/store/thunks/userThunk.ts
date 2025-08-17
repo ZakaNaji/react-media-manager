@@ -22,12 +22,18 @@ const addUser = createAsyncThunk("users/add", async () => {
   return data;
 });
 
+const deleteUser = createAsyncThunk("users/delete", async (id: string) => {
+  const resp = await axios.delete(`${apiRootURL}/users/${id}`);
+
+  return id;
+});
+
 const pause = (durration: number) => {
   if (import.meta.env.VITE_SIMULATE_DATA_FETCHING) {
     return new Promise((resolve) => setTimeout(resolve, durration));
   }
 };
 
-export { fetchUsers, addUser };
+export { fetchUsers, addUser, deleteUser };
 
-export type thunkType = typeof fetchUsers;
+export type thunkType = typeof fetchUsers | typeof deleteUser;

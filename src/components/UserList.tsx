@@ -22,17 +22,17 @@ export default function UserList() {
     doFetchUsers();
   }, [doFetchUsers]);
 
+  let content;
+
   if (isUserLoading) {
-    return <Skeleton times={5} classeName="h-10 w-full" />;
+    content = <Skeleton times={5} classeName="h-10 w-full" />;
+  } else if (loadingUsersError) {
+    content = <div>SOMETHING WENT WRONG: {loadingUsersError}</div>;
+  } else {
+    content = users.map((user) => {
+      return <UserComponent user={user} key={user.id} />;
+    });
   }
-
-  if (loadingUsersError) {
-    return <div>SOMETHING WENT WRONG: {loadingUsersError}</div>;
-  }
-
-  const renderedUsers = users.map((user) => {
-    return <UserComponent user={user} key={user.id} />;
-  });
 
   return (
     <div>
@@ -42,7 +42,7 @@ export default function UserList() {
           + ADD user
         </Button>
       </div>
-      {renderedUsers}
+      {content}
     </div>
   );
 }

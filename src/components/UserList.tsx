@@ -3,7 +3,7 @@ import { addUser, fetchUsers } from "../store/thunks/userThunk";
 import { useAppSelector } from "../hooks/hooks";
 import type { User } from "../types/user";
 import Skeleton from "./Skeleton";
-import UserComponent from "./User";
+import UserComponent from "./UsersListItem";
 import Button from "./Button";
 import { useThunk } from "../hooks/useThunk";
 

@@ -1,6 +1,8 @@
 import React from "react";
 import type { User } from "../types/user";
 import { useGetAlbumsByUserIdQuery } from "../hooks/albumsApi";
+import Expandablepanel from "./Expandablepanel";
+import Header from "./Header";
 
 export default function AlbumsList({ user }: { user: User }) {
   const {
@@ -8,10 +10,24 @@ export default function AlbumsList({ user }: { user: User }) {
     isLoading,
     isError,
   } = useGetAlbumsByUserIdQuery(user.id);
+
+  const handleClick = () => {};
+
   return (
     <div>
       {albums?.map((album) => (
-        <div key={album.id}>{album.title}</div>
+        <Expandablepanel
+          key={album.id}
+          header={
+            <Header
+              data={album.title}
+              isLoading={isLoading}
+              handleClick={handleClick}
+            />
+          }
+        >
+          Test
+        </Expandablepanel>
       ))}
     </div>
   );

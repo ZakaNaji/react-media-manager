@@ -11,6 +11,7 @@ export const albumsApi = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: `${baseUrl}`,
   }),
+  tagTypes: ["Album"] as const,
   endpoints(builder) {
     return {
       getAlbumsByUserId: builder.query<Album[], string>({
@@ -19,6 +20,9 @@ export const albumsApi = createApi({
           params: { userId },
           method: "GET",
         }),
+        providesTags: (results, error, arg) => {
+          return [{ type: "Album", id: arg }];
+        },
       }),
       addAlbum: builder.mutation<Album, User, Album>({
         query: (user) => {
@@ -30,6 +34,9 @@ export const albumsApi = createApi({
               title: faker.commerce.productName(),
             },
           };
+        },
+        invalidatesTags: (results, error, arg) => {
+          return [{ type: "Album", id: arg.id }];
         },
       }),
     };

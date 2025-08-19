@@ -3,7 +3,7 @@ import Button from "./Button";
 import { GoTrashcan } from "react-icons/go";
 
 interface HeaderProps {
-  handleClick: () => void;
+  handleClick: React.MouseEventHandler;
   isLoading: boolean;
   data: ReactNode;
 }

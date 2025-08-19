@@ -15,20 +15,23 @@ export default function AlbumsList({ user }: { user: User }) {
 
   return (
     <div>
-      {albums?.map((album) => (
-        <Expandablepanel
-          key={album.id}
-          header={
-            <Header
-              data={album.title}
-              isLoading={isLoading}
-              handleClick={handleClick}
-            />
-          }
-        >
-          Test
-        </Expandablepanel>
-      ))}
+      <div>Albums by: {user.name}</div>
+      <div>
+        {albums?.map((album) => (
+          <Expandablepanel
+            key={album.id}
+            header={
+              <Header
+                data={album.title}
+                isLoading={isLoading}
+                handleClick={handleClick}
+              />
+            }
+          >
+            Test
+          </Expandablepanel>
+        ))}
+      </div>
     </div>
   );
 }

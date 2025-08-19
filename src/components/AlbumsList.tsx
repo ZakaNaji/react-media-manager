@@ -1,8 +1,12 @@
 import React from "react";
 import type { User } from "../types/user";
-import { useGetAlbumsByUserIdQuery } from "../hooks/albumsApi";
+import {
+  useAddAlbumMutation,
+  useGetAlbumsByUserIdQuery,
+} from "../hooks/albumsApi";
 import Expandablepanel from "./Expandablepanel";
 import Header from "./Header";
+import Button from "./Button";
 
 export default function AlbumsList({ user }: { user: User }) {
   const {
@@ -11,11 +15,22 @@ export default function AlbumsList({ user }: { user: User }) {
     isError,
   } = useGetAlbumsByUserIdQuery(user.id);
 
-  const handleClick = () => {};
+  const [addAlbum, results] = useAddAlbumMutation();
+
+  const handleClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+  };
+
+  const handleAddAlbum = () => {
+    addAlbum(user);
+  };
 
   return (
     <div>
-      <div>Albums by: {user.name}</div>
+      <div className="flex justify-between">
+        Albums by: {user.name}
+        <Button onClick={handleAddAlbum}>+ Add Album</Button>
+      </div>
       <div>
         {albums?.map((album) => (
           <Expandablepanel

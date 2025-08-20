@@ -10,6 +10,10 @@ export const albumsApi = createApi({
   reducerPath: "albumsApi",
   baseQuery: fetchBaseQuery({
     baseUrl: `${baseUrl}`,
+    fetchFn: async (...args) => {
+      await pause(1000);
+      return fetch(...args);
+    },
   }),
   tagTypes: ["Album"] as const,
   endpoints(builder) {
@@ -42,5 +46,11 @@ export const albumsApi = createApi({
     };
   },
 });
+
+const pause = (durration: number) => {
+  if (import.meta.env.VITE_SIMULATE_DATA_FETCHING) {
+    return new Promise((resolve) => setTimeout(resolve, durration));
+  }
+};
 
 export const { useGetAlbumsByUserIdQuery, useAddAlbumMutation } = albumsApi;

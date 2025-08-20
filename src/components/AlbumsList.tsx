@@ -27,9 +27,11 @@ export default function AlbumsList({ user }: { user: User }) {
 
   return (
     <div>
-      <div className="flex justify-between">
-        Albums by: {user.name}
-        <Button onClick={handleAddAlbum}>+ Add Album</Button>
+      <div className="m-2 flex flex-row items-center justify-between">
+        <h3 className="text-lg font-bold">Albums by: {user.name}</h3>
+        <Button isLoading={results.isLoading} onClick={handleAddAlbum}>
+          + Add Album
+        </Button>
       </div>
       <div>
         {albums?.map((album) => (

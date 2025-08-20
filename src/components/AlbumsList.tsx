@@ -7,12 +7,14 @@ import {
 import Expandablepanel from "./Expandablepanel";
 import Header from "./Header";
 import Button from "./Button";
+import Skeleton from "./Skeleton";
 
 export default function AlbumsList({ user }: { user: User }) {
   const {
     data: albums,
     isLoading,
     isError,
+    isFetching,
   } = useGetAlbumsByUserIdQuery(user.id);
 
   const [addAlbum, results] = useAddAlbumMutation();
@@ -24,6 +26,10 @@ export default function AlbumsList({ user }: { user: User }) {
   const handleAddAlbum = () => {
     addAlbum(user);
   };
+
+  if (isLoading) {
+    return <Skeleton classeName="h-10 w-full" times={3} />;
+  }
 
   return (
     <div>

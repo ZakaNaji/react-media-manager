@@ -2,30 +2,17 @@ import React from "react";
 import type { User } from "../types/user";
 import {
   useAddAlbumMutation,
-  useDeleteAlbumMutation,
   useGetAlbumsByUserIdQuery,
 } from "../hooks/albumsApi";
-import Expandablepanel from "./Expandablepanel";
-import Header from "./Header";
+
 import Button from "./Button";
 import Skeleton from "./Skeleton";
-import type { Album } from "../types/album";
+import AlbumsListitem from "./AlbumsListitem";
 
 export default function AlbumsList({ user }: { user: User }) {
-  const {
-    data: albums,
-    isLoading,
-    isError,
-    isFetching,
-  } = useGetAlbumsByUserIdQuery(user.id);
+  const { data: albums, isLoading } = useGetAlbumsByUserIdQuery(user.id);
 
   const [addAlbum, addResults] = useAddAlbumMutation();
-  const [deleteAlbum, deleteResults] = useDeleteAlbumMutation();
-
-  const handleClick = (e: React.MouseEvent, album: Album) => {
-    e.stopPropagation();
-    deleteAlbum(album);
-  };
 
   const handleAddAlbum = () => {
     addAlbum(user);
@@ -45,18 +32,7 @@ export default function AlbumsList({ user }: { user: User }) {
       </div>
       <div>
         {albums?.map((album) => (
-          <Expandablepanel
-            key={album.id}
-            header={
-              <Header
-                data={album.title}
-                isLoading={deleteResults.isLoading}
-                handleClick={(e) => handleClick(e, album)}
-              />
-            }
-          >
-            Test
-          </Expandablepanel>
+          <AlbumsListitem album={album} />
         ))}
       </div>
     </div>

@@ -10,7 +10,7 @@ import Skeleton from "./Skeleton";
 import AlbumsListitem from "./AlbumsListitem";
 
 export default function AlbumsList({ user }: { user: User }) {
-  const { data: albums, isLoading } = useGetAlbumsByUserIdQuery(user.id);
+  const { data: albums, isFetching } = useGetAlbumsByUserIdQuery(user.id);
 
   const [addAlbum, addResults] = useAddAlbumMutation();
 
@@ -18,8 +18,8 @@ export default function AlbumsList({ user }: { user: User }) {
     addAlbum(user);
   };
 
-  if (isLoading) {
-    return <Skeleton classeName="h-10 w-full" times={3} />;
+  if (isFetching) {
+    return <Skeleton classeName="h-10 w-full" times={albums?.length} />;
   }
 
   return (

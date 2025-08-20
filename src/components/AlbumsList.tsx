@@ -2,12 +2,14 @@ import React from "react";
 import type { User } from "../types/user";
 import {
   useAddAlbumMutation,
+  useDeleteAlbumMutation,
   useGetAlbumsByUserIdQuery,
 } from "../hooks/albumsApi";
 import Expandablepanel from "./Expandablepanel";
 import Header from "./Header";
 import Button from "./Button";
 import Skeleton from "./Skeleton";
+import type { Album } from "../types/album";
 
 export default function AlbumsList({ user }: { user: User }) {
   const {
@@ -17,10 +19,12 @@ export default function AlbumsList({ user }: { user: User }) {
     isFetching,
   } = useGetAlbumsByUserIdQuery(user.id);
 
-  const [addAlbum, results] = useAddAlbumMutation();
+  const [addAlbum, addResults] = useAddAlbumMutation();
+  const [deleteAlbum, deleteResults] = useDeleteAlbumMutation();
 
-  const handleClick = (e: React.MouseEvent) => {
+  const handleClick = (e: React.MouseEvent, album: Album) => {
     e.stopPropagation();
+    deleteAlbum(album);
   };
 
   const handleAddAlbum = () => {
@@ -35,7 +39,7 @@ export default function AlbumsList({ user }: { user: User }) {
     <div>
       <div className="m-2 flex flex-row items-center justify-between">
         <h3 className="text-lg font-bold">Albums by: {user.name}</h3>
-        <Button isLoading={results.isLoading} onClick={handleAddAlbum}>
+        <Button isLoading={addResults.isLoading} onClick={handleAddAlbum}>
           + Add Album
         </Button>
       </div>
@@ -46,8 +50,8 @@ export default function AlbumsList({ user }: { user: User }) {
             header={
               <Header
                 data={album.title}
-                isLoading={isLoading}
-                handleClick={handleClick}
+                isLoading={deleteResults.isLoading}
+                handleClick={(e) => handleClick(e, album)}
               />
             }
           >

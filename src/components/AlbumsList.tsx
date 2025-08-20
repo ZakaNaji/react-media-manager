@@ -32,7 +32,7 @@ export default function AlbumsList({ user }: { user: User }) {
       </div>
       <div>
         {albums?.map((album) => (
-          <AlbumsListitem album={album} />
+          <AlbumsListitem key={album.id} album={album} />
         ))}
       </div>
     </div>

@@ -1,4 +1,8 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import {
+  createApi,
+  fetchBaseQuery,
+  type ResultDescription,
+} from "@reduxjs/toolkit/query/react";
 import type { Album } from "../types/album";
 import { use } from "react";
 import type { User } from "../types/user";
@@ -15,7 +19,7 @@ export const albumsApi = createApi({
       return fetch(...args);
     },
   }),
-  tagTypes: ["Album"] as const,
+  tagTypes: ["Album", "UsersAlbums"] as const,
   endpoints(builder) {
     return {
       getAlbumsByUserId: builder.query<Album[], string>({
@@ -25,7 +29,12 @@ export const albumsApi = createApi({
           method: "GET",
         }),
         providesTags: (results, error, arg) => {
-          return [{ type: "Album", id: arg }];
+          const tags: ResultDescription = results?.map((album) => ({
+            type: "Album",
+            id: album.id,
+          }));
+          tags?.push({ type: "UsersAlbums", id: arg });
+          return tags;
         },
       }),
 
@@ -41,7 +50,7 @@ export const albumsApi = createApi({
           };
         },
         invalidatesTags: (results, error, arg) => {
-          return [{ type: "Album", id: arg.id }];
+          return [{ type: "UsersAlbums", id: arg.id }];
         },
       }),
 
@@ -53,7 +62,7 @@ export const albumsApi = createApi({
           };
         },
         invalidatesTags(result, error, arg) {
-          return [{ type: "Album", id: arg.userId }];
+          return [{ type: "Album", id: arg.id }];
         },
       }),
     };

@@ -3,3 +3,9 @@ export type Album = {
   title: string;
   userId: string;
 };
+
+export type Photo = {
+  id: string;
+  url: string;
+  albumId: string;
+};

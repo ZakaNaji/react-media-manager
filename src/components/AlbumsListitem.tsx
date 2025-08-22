@@ -3,6 +3,7 @@ import type { Album } from "../types/album";
 import Expandablepanel from "./Expandablepanel";
 import Header from "./Header";
 import { useDeleteAlbumMutation } from "../hooks/albumsApi";
+import PhotosList from "./PhotosList";
 
 export default function AlbumsListitem({ album }: { album: Album }) {
   const [deleteAlbum, deleteResults] = useDeleteAlbumMutation();
@@ -11,6 +12,7 @@ export default function AlbumsListitem({ album }: { album: Album }) {
     e.stopPropagation();
     deleteAlbum(album);
   };
+
   return (
     <Expandablepanel
       header={
@@ -21,7 +23,7 @@ export default function AlbumsListitem({ album }: { album: Album }) {
         />
       }
     >
-      Test
+      <PhotosList album={album} />
     </Expandablepanel>
   );
 }

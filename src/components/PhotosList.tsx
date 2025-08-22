@@ -3,7 +3,7 @@ import type { Album, Photo } from "../types/album";
 import Skeleton from "./Skeleton";
 
 export default function PhotosList({ album }: { album: Album }) {
-  const { data, isFetching } = useGetPhotosByAlbumIdQuery(album.id);
+  const { data, isFetching } = useGetPhotosByAlbumIdQuery(album);
   if (isFetching) {
     return <Skeleton classeName="h-10 w-full" times={3} />;
   }

@@ -1,3 +1,4 @@
+import { faker } from "@faker-js/faker";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 const baseUrl = import.meta.env.VITE_API_ROOT as string;
@@ -14,10 +15,30 @@ const photosApi = createApi({
   endpoints(builder) {
     return {
       getPhotosByAlbumId: builder.query({
-        query(albumId) {
+        query(album) {
           return {
-            url: `/photos?albumId=${albumId}`,
+            url: `/photos?albumId=${album.id}`,
             method: "GET",
+          };
+        },
+      }),
+      addPhoto: builder.mutation({
+        query(album) {
+          return {
+            url: "/photos",
+            method: "POST",
+            body: {
+              url: faker.image.abstract(500, 500, true),
+              albumId: album.id,
+            },
+          };
+        },
+      }),
+      removePhoto: builder.mutation({
+        query() {
+          return {
+            url: "/photos",
+            method: "DELETE",
           };
         },
       }),
